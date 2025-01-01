@@ -90,3 +90,24 @@ Python において`@decorator`シンタックスはデコレータと呼ぶ。
   上記は、直下の関数が下記リクエスト処理を担当することを FastAPI に伝える
   - パスが`/`である
   - `get`オペレーションである
+
+# パスオペレーション
+
+上記デコレータを含め、以下のコードで考える。
+
+- パスが`/`である
+- `get`オペレーションである
+- 関数はパスオペレーションデコレータの直下にある関数
+
+```python
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+```
+
+`GET`オペレーションを使った URL でパス「`/`」へのリクエストを受け取るたびに FastAPI によって呼び出される。
