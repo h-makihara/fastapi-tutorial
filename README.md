@@ -117,3 +117,39 @@ async def root():
 `dict`, `list`, `str`, `int` などを返すことが可能。  
 Pydantic モデルを返すことも可能。  
 JSON に自動変換されるオブジェクトやモデルも多数ある（ORM 等）。
+
+# パスパラメータと型
+
+標準の Python の型アノテーションを使用し、関数内のパスパラメータの型を宣言できる。  
+下記の例では`item_id`は、`int`として宣言されている。  
+例：
+
+```python
+async def read_item(item_id: int):
+```
+
+# 順序の問題
+
+path operations を作成する際、固定パスを持つ状況があり得る。  
+`/users/me`から、現在のユーザに関する情報を取得するとし、ユーザ ID によって特定ユーザに関する情報を取得するパス`/users/{user_id}`も持つことができる。
+
+path operations は順に評価されるので、`/users/me`が、`/users/{user_id}`よりも先に宣言されている必要がある。
+
+```python
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/users/me")
+async def read_user_me():
+    return {"user_id": "the current user"}
+
+
+@app.get("/users/{user_id}")
+async def read_user(user_id: str):
+    return {"user_id": user_id}
+```
+
+順序が逆の場合、`/users/{user_id}`に、`/users/me`がマッチしてしまう。  
+値が「"me"」であるパラメータ`user_id`を受け取ると想定する。
