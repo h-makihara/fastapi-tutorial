@@ -153,3 +153,39 @@ async def read_user(user_id: str):
 
 順序が逆の場合、`/users/{user_id}`に、`/users/me`がマッチしてしまう。  
 値が「"me"」であるパラメータ`user_id`を受け取ると想定する。
+
+# クエリパラメータ
+
+`?`に続くキーとバリューの組で、`&`で区切られる。  
+例：
+
+```
+http://127.0.0.1:8000/items/?skip=0&limit=10
+```
+
+この URL のクエリパラメータは以下の通り。
+
+- `skip`: 値は`0`
+- `limit`: 値は`10`
+
+## オプショナルなパラメータ
+
+デフォルト値を`None`とすることで、オプショナルなパラメータを宣言できる。  
+例：
+
+```python
+from typing import Union
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/items/{item_id}")
+async def read_item(item_id: str, q: Union[str, None] = None):
+    if q:
+        return {"item_id": item_id, "q": q}
+    return {"item_id": item_id}
+```
+
+この場合、関数パラメータ`q`はオプショナルとなり、デフォルトでは`None`となる。
