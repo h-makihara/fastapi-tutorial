@@ -205,4 +205,5 @@ async def read_item(item_id: str, q: Union[str, None] = None):
 
 1. パラメータが*パス*で宣言されている場合は、優先的にパスパラメータとして扱う
 2. パラメータが*単数形*（`int`, `float`, `str`, `bool`など）の場合は*クエリ*パラメータとして解釈する
-3. パラメータが*Pydantic モデル*型で宣言された場合、リクエスト*ボディ*として解釈する
+3. パラメータが*Pydantic モデル*型で宣言された場合、リクエスト*ボディ*として解釈する  
+   ※ Pydantic モデルを使いたくない場合は、[Body パラメータ](https://fastapi.tiangolo.com/ja/tutorial/body-multiple-params/#_2)を利用できる
