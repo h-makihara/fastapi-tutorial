@@ -9,7 +9,7 @@ class Item(BaseModel):
     description: str | None = None
     price: float
     tax: float | None = None
-    tags: list = []
+    tags: list[str] = []
 
 
 @app.put("/items/{item_id}")
